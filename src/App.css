@@ -1,0 +1,88 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.AppContainer {
+  display: flex;
+  background-color: yellow;
+  justify-content: center;
+}
+
+.CalculatorContainer {
+  width: 500px;
+  height: 600px;
+  background-color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.ButtonsRow {
+  display: flex;
+  justify-content: space-around;
+}
+
+.InputRow {
+  display: flex;
+  height: 20px;
+  margin: 20px;
+  margin-right: 40px;
+  color: white;
+  font-size: 40px;
+}
+/*
+.ButtonsContainer {
+  flex: 2
+}*/
+
+.InputScreen {
+  text-align: right;
+  width: 100%;
+}
+
+.circle {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  background-color: green;
+}
+
+.circleText {
+  position: relative;
+  top: 25px;
+  right: 0;
+}
+
+.circle.active {
+  background-color: white;
+}
+
+.circle.ZeroCircle {
+  width: 200px;
+  border-radius: 40%;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
