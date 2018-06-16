@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Circle from './components/circle.js'
+import './components/circle/circle.css'
+import './components/buttonRow/button-row.css'
+import ButtonRow from './components/button-row/button-row.js'
+
 
 // Set state for when they press the numbers
 // Set state for when they pres the functions
 
 // split into serveral components
 // styled components
+
+// how to we create code snipits
 
 class App extends Component {
   constructor() {
@@ -28,7 +35,6 @@ class App extends Component {
   }
 
   setCommand = command => () => {
-
     this.setState({
       currentCommand: command
     })
@@ -141,78 +147,39 @@ class App extends Component {
                 {this.state.currentValue}
               </span>
             </div>
-            <div className="ButtonsRow">
-              <div className="circle" onClick={this.clearNumbers}>
-                <span className="circleText"> AC </span>
-              </div>
-              <div className="circle">
-                <span className="circleText"> nill </span>
-              </div>
-              <div className="circle">
-                <span className="circleText"> % </span>
-              </div>
+            <ButtonRow>
+              <Circle onClick={this.clearNumbers}> AC </Circle>
+              <Circle onClick={this.clearNumbers}> Nill </Circle>
+              <Circle onClick={this.clearNumbers}> % </Circle>
+              <Circle className={currentCommand === 'Divide' ? 'active' : ''} onClick={this.setCommand('Divide')}> / </Circle>
+            </ButtonRow>
 
-              <div className={currentCommand === 'Divide' ? 'circle active' : 'circle'} onClick={this.setCommand('Divide')}>
-                <span className="circleText"> / </span>
-              </div>
-            </div>
+            <ButtonRow>
+              <Circle onClick={this.inputNumber(7)}> 7 </Circle>
+              <Circle onClick={this.inputNumber(8)}> 8 </Circle>
+              <Circle onClick={this.inputNumber(9)}> 9 </Circle>
+              <Circle className={currentCommand === 'Multiply' ? 'active' : ''} onClick={this.setCommand('Multiply')}> X </Circle>
+            </ButtonRow>
 
-            <div className="ButtonsRow">
-              <div className="circle" onClick={this.inputNumber(7)}>
-                <span className="circleText"> 7 </span>
-              </div>
-              <div className="circle" onClick={this.inputNumber(8)}>
-                <span className="circleText"> 8 </span>
-              </div>
-              <div className="circle" onClick={this.inputNumber(9)}>
-                <span className="circleText"> 9 </span>
-              </div>
-              <div className={currentCommand === 'Multiply' ? 'circle active' : 'circle'} onClick={this.setCommand('Multiply')}>
-                <span className='circleText'> X </span>
-              </div>
-            </div>
+            <ButtonRow>
+              <Circle onClick={this.inputNumber(4)}> 4 </Circle>
+              <Circle onClick={this.inputNumber(5)}> 5 </Circle>
+              <Circle onClick={this.inputNumber(6)}> 6 </Circle>
+              <Circle className={currentCommand === 'Subtract' ? 'active' : ''} onClick={this.setCommand('Subtract')}> - </Circle>
+            </ButtonRow>
 
-            <div className="ButtonsRow">
-              <div className="circle" onClick={this.inputNumber(4)}>
-                <span className="circleText"> 4 </span>
-              </div>
-              <div className="circle" onClick={this.inputNumber(5)}>
-                <span className="circleText"> 5 </span>
-              </div>
-              <div className="circle" onClick={this.inputNumber(6)}>
-                <span className="circleText"> 6 </span>
-              </div>
-              <div className={currentCommand === 'Subtract' ? 'circle active' : 'circle'} onClick={this.setCommand('Subtract')}>
-                <span className="circleText" > - </span>
-              </div>
-            </div>
+            <ButtonRow>
+              <Circle onClick={this.inputNumber(1)}> 1 </Circle>
+              <Circle onClick={this.inputNumber(2)}> 2 </Circle>
+              <Circle onClick={this.inputNumber(3)}> 3 </Circle>
+              <Circle className={currentCommand === 'Add' ? 'active' : ''} onClick={this.setCommand('Add')}> + </Circle>
+            </ButtonRow>
 
-            <div className="ButtonsRow">
-              <div className="circle" onClick={this.inputNumber(1)}>
-                <span className="circleText"> 1 </span>
-              </div>
-              <div className="circle" onClick={this.inputNumber(2)}>
-                <span className="circleText"> 2 </span>
-              </div>
-              <div className="circle" onClick={this.inputNumber(3)}>
-                <span className="circleText"> 3 </span>
-              </div>
-              <div className={currentCommand === 'Add' ? 'circle active' : 'circle'} onClick={this.setCommand('Add')}>
-                <span className="circleText"> + </span>
-              </div>
-            </div>
-
-            <div className="ButtonsRow">
-              <div className="circle ZeroCircle" onClick={this.inputNumber(0)}>
-                <span className="circleText"> 0 </span>
-              </div>
-              <div className="circle">
-                <span className="circleText"> . </span>
-              </div>
-              <div className="circle" onClick={this.determineCommand(currentCommand)}>
-                <span className="circleText"> = </span>
-              </div>
-            </div>
+            <ButtonRow>
+              <Circle onClick={this.inputNumber(0)} className='ZeroCircle'> 0 </Circle>
+              <Circle onClick={this.inputNumber(0)}> . </Circle>
+              <Circle onClick={this.determineCommand(currentCommand)}> = </Circle>
+            </ButtonRow>
 
             <p className="App-intro">
               This is my Calculator

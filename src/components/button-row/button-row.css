@@ -1,0 +1,13 @@
+.ButtonRow {
+  display: flex;
+  justify-content: space-around;
+}
+
+.InputRow {
+  display: flex;
+  height: 20px;
+  margin: 20px;
+  margin-right: 40px;
+  color: white;
+  font-size: 40px;
+}
