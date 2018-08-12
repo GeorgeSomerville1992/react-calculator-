@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import logo from './logo.svg';
 import './App.css';
 import Circle from './components/circle.js'
 import './components/circle/circle.css'
-import './components/buttonRow/button-row.css'
+import './components/button-row/button-row.css'
 import ButtonRow from './components/button-row/button-row.js'
-
+import { add, output, multiply, divide, subtract, currentCommand, currentCommandValue, clearValues } from './redux/calculator-actions.js'
 
 // Set state for when they press the numbers
 // Set state for when they pres the functions
@@ -35,12 +36,12 @@ class App extends Component {
   }
 
   setCommand = command => () => {
-    this.setState({
-      currentCommand: command
-    })
+    this.props.dispatch(currentCommand({currentCommand: command}))
   }
 
   determineCommand = (command, value) => () => {
+    console.log('ermingin command ===>')
+    console.log(command, value)
     switch (command) {
       case 'Add':
         this.addNumber(value)
@@ -59,45 +60,45 @@ class App extends Component {
   }
 
   subTractNumber = number => {
-    const { currentValue, currentCommandValue } = this.state
-    const newValue = Number(this.state.currentValue) - Number(this.state.currentCommandValue)
-
-    this.outputAnswer(newValue)
+    const { currentValue, currentCommandValue } = this.props
+    const { dispatch } = this.props
+    dispatch(subtract({currentValue, currentCommandValue}))
   }
 
   divideNumber = number => {
-    const { currentValue, currentCommandValue } = this.state
-    const newValue = Number(this.state.currentValue) / Number(this.state.currentCommandValue)
-
-    this.outputAnswer(newValue)
+    const { currentValue, currentCommandValue } = this.props
+    const { dispatch } = this.props
+    // const newValue = Number(this.state.currentValue) / Number(this.state.currentCommandValue)
+    dispatch(divide({currentValue, currentCommandValue}))
+    // this.outputAnswer(newValue)
   }
 
   multiplyNumber = number => {
-    const { currentValue, currentCommandValue } = this.state
-    const newValue = Number(this.state.currentValue) * Number(this.state.currentCommandValue)
-
-    this.outputAnswer(newValue)
+    const { currentValue, currentCommandValue } = this.props
+    const { dispatch } = this.props
+    dispatch(multiply({currentValue, currentCommandValue}))
   }
 
   addNumber = number => {
-    const { currentValue, currentCommandValue } = this.state
-    const newValue = Number(currentValue) + Number(currentCommandValue)
-
-    this.outputAnswer(newValue)
+    const { currentValue, currentCommandValue } = this.props
+    const { dispatch } = this.props
+    dispatch(add({currentValue, currentCommandValue}))
   }
 
   outputCommandValueNumber = number => {
-    const { currentCommandValue } = this.state
+    const { currentCommandValue } = this.props
+
     if (currentCommandValue === 0) {
-      this.outputCommandValueState(number)
+      this.outputCommandValue(number)
     } else {
       const displayNumber = "" + number + currentCommandValue
-      this.outputCommandValueState(displayNumber)
+      this.outputCommandValue(displayNumber)
     }
   }
 
   inputNumber = number => () => {
-    const { currentValue, currentCommand } = this.state
+    const { currentValue, currentCommand } = this.props
+
     if (currentCommand) {
       this.outputCommandValueNumber(number)
       return
@@ -106,34 +107,28 @@ class App extends Component {
     if (currentValue === 0) {
       this.outputNumber(number)
     } else {
-      const displayNumber = "" + number + this.state.currentValue
+      const displayNumber = "" + number + this.props.currentValue
       this.outputNumber(displayNumber)
     }
   }
 
   outputNumber = number => {
-    this.setState({
-      currentValue: number
-    })
+    this.props.dispatch(output({currentValue: number}))
   }
 
-  outputCommandValueState = number => {
-    this.setState({
-      currentCommandValue: number
-    })
+  outputCommandValue = number => {
+    this.props.dispatch(currentCommandValue({currentCommandValue: number}))
   }
 
   clearNumbers = () => {
-    this.setState({
-      currentValue: 0,
-      currentCommandValue: 0,
-      currentCommand: null,
-    })
+    this.props.dispatch(clearValues())
   }
 
   render() {
-    const { currentValue, currentCommand } = this.state
+    const { currentValue, currentCommand } = this.props
     console.log('currentCommand', currentCommand)
+    console.log('rendering again because my state has changed', this.props)
+
     return (
       <div className="App">
         <header className="App-header">
@@ -144,7 +139,7 @@ class App extends Component {
           <div className="CalculatorContainer">
             <div className="InputRow">
               <span className="InputScreen">
-                {this.state.currentValue}
+                {currentValue}
               </span>
             </div>
             <ButtonRow>
@@ -191,4 +186,19 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  console.log('hellow state', state)
+  console.log('state.caculator reducer', state.calculatorReducer)
+
+  return {
+    currentValue: state.calculatorReducer.currentValue,
+    currentCommandValue: state.calculatorReducer.currentCommandValue,
+    currentCommand: state.calculatorReducer.currentCommand,
+  }
+}
+
+const mapActionsToProps = dispatch => ({
+  dispatch,
+})
+
+export default connect(mapStateToProps, mapActionsToProps)(App)
